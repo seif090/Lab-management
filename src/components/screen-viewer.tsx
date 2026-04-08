@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Home, Layers3 } from "lucide-react";
+import { hasSemanticScreen, SemanticScreen } from "@/components/semantic-screens";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { screens, type Screen } from "@/lib/screens";
@@ -55,18 +56,22 @@ export function ScreenViewer({ screen }: { screen: Screen }) {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-[28px] bg-slate-100">
-              <div className="relative w-full">
-                <Image
-                  src={screen.image}
-                  alt={screen.title}
-                  width={1600}
-                  height={1200}
-                  priority
-                  className="h-auto w-full"
-                />
+            {hasSemanticScreen(screen.slug) ? (
+              <SemanticScreen screen={screen} />
+            ) : (
+              <div className="overflow-hidden rounded-[28px] bg-slate-100">
+                <div className="relative w-full">
+                  <Image
+                    src={screen.image}
+                    alt={screen.title}
+                    width={1600}
+                    height={1200}
+                    priority
+                    className="h-auto w-full"
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>
