@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Home, Layers3 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Home, Layers3, PanelRightOpen } from "lucide-react";
 import { hasSemanticScreen, SemanticScreen } from "@/components/semantic-screens";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,9 +22,7 @@ export function ScreenViewer({ screen }: { screen: Screen }) {
                   <Layers3 className="size-3.5" />
                   {screen.category}
                 </div>
-                <h1 className="text-2xl font-extrabold text-foreground sm:text-3xl">
-                  {screen.title}
-                </h1>
+                <h1 className="text-2xl font-extrabold text-foreground sm:text-3xl">{screen.title}</h1>
                 <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
                   {screen.description}
                 </p>
@@ -34,21 +32,27 @@ export function ScreenViewer({ screen }: { screen: Screen }) {
                 <Link href="/">
                   <Button variant="secondary">
                     <Home className="size-4" />
-                    العودة للفهرس
+                    لوحة التحكم
+                  </Button>
+                </Link>
+                <Link href="/modules">
+                  <Button variant="secondary">
+                    <PanelRightOpen className="size-4" />
+                    مركز الوحدات
                   </Button>
                 </Link>
                 {previous ? (
                   <Link href={`/screens/${previous.slug}`}>
                     <Button variant="ghost">
                       <ArrowRight className="size-4" />
-                      السابق
+                      الوحدة السابقة
                     </Button>
                   </Link>
                 ) : null}
                 {next ? (
                   <Link href={`/screens/${next.slug}`}>
                     <Button>
-                      التالي
+                      الوحدة التالية
                       <ArrowLeft className="size-4" />
                     </Button>
                   </Link>
