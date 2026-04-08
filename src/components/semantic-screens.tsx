@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  AlertTriangle,
   Bell,
   Bot,
   CheckCircle2,
@@ -39,6 +40,12 @@ const semanticScreenSlugs = new Set([
   "fast_search_patients_list",
   "test_catalog",
   "inventory_reagents",
+  "billing_payments",
+  "referring_doctors",
+  "patient_portal_dashboard",
+  "notifications_center",
+  "global_hie",
+  "pharmacogenomics",
 ]);
 
 export function hasSemanticScreen(slug: string) {
@@ -81,6 +88,18 @@ export function SemanticScreen({ screen }: { screen: Screen }) {
       return <TestCatalogScreen />;
     case "inventory_reagents":
       return <InventoryScreen />;
+    case "billing_payments":
+      return <BillingPaymentsScreen />;
+    case "referring_doctors":
+      return <ReferringDoctorsScreen />;
+    case "patient_portal_dashboard":
+      return <PatientPortalDashboardScreen />;
+    case "notifications_center":
+      return <NotificationsCenterScreen />;
+    case "global_hie":
+      return <GlobalHieScreen />;
+    case "pharmacogenomics":
+      return <PharmacogenomicsScreen />;
     default:
       return null;
   }
@@ -1501,6 +1520,421 @@ function InventoryScreen() {
             </div>
           </CardContent>
         </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function BillingPaymentsScreen() {
+  return (
+    <AppFrame brand="LIMS Clinical" profile="إدارة الفوترة" sideTitle="Billing">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-extrabold">إدارة الفواتير والمدفوعات</h1>
+            <p className="mt-2 text-sm text-muted-foreground">نظرة شاملة على المعاملات المالية والطلبات التأمينية</p>
+          </div>
+          <div className="flex gap-3">
+            <Button>تسجيل دفعة جديدة</Button>
+            <Button variant="secondary">تحرير كشف</Button>
+          </div>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-4">
+          <MetricTile title="الإيرادات الكلية" value="3,420.00" unit="SAR" />
+          <MetricTile title="مطالبات التأمين" value="118,000" unit="EGP" />
+          <MetricTile title="المدفوعات المعلقة" value="15,240.50" unit="SAR" danger />
+          <MetricTile title="إجمالي إيرادات اليوم" value="42,850.00" unit="SAR" />
+        </div>
+
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-extrabold">الفواتير الأخيرة</h2>
+              <div className="flex gap-2">
+                <Button variant="secondary" size="icon">
+                  <SlidersHorizontal className="size-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[0.8fr_1fr_0.8fr_0.8fr_0.75fr_0.8fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>رقم الفاتورة</span>
+                <span>اسم المريض</span>
+                <span>التاريخ</span>
+                <span>المبلغ</span>
+                <span>الحالة</span>
+                <span>طريقة الدفع</span>
+              </div>
+              {[
+                ["INV-2026-00482", "عبدالرحمن محمود العمري", "Oct 24 2026", "1,450.00", "مدفوعة", "بطاقة التأمين", "green"],
+                ["INV-2026-00483", "ليلى يوسف خليل", "Oct 24 2026", "820.00", "معلقة", "نقدي", "red"],
+                ["INV-2026-00484", "عمر خالد العتيبي", "Oct 23 2026", "2,100.00", "جزئي", "نقدي", "orange"],
+              ].map((row) => (
+                <div key={row[0]} className="grid grid-cols-[0.8fr_1fr_0.8fr_0.8fr_0.75fr_0.8fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <span className="font-mono font-bold text-primary">{row[0]}</span>
+                  <span className="font-semibold">{row[1]}</span>
+                  <span className="font-mono">{row[2]}</span>
+                  <span className="font-mono">{row[3]}</span>
+                  <StatusPill tone={row[6] as "green" | "red" | "orange"}>{row[4]}</StatusPill>
+                  <span>{row[5]}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function ReferringDoctorsScreen() {
+  return (
+    <AppFrame brand="Clinical Ops" profile="شبكة الإحالة" sideTitle="Referring Doctors">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-extrabold">إدارة الأطباء المحيلين</h1>
+            <p className="mt-2 text-sm text-muted-foreground">تتبع وتحليل أداء شبكة الأطباء المتعاونين مع المختبر</p>
+          </div>
+          <div className="flex gap-3">
+            <Button>إضافة طبيب جديد</Button>
+            <Button variant="secondary">دعوة طبيب خارجي</Button>
+          </div>
+        </div>
+
+        <div className="grid gap-5 xl:grid-cols-[0.44fr_1fr]">
+          <Card className="bg-[#eef7f5]">
+            <CardContent className="space-y-5 p-6">
+              <h3 className="text-xl font-extrabold">إجمالي الإحالات هذا الأسبوع</h3>
+              <p className="font-mono text-6xl font-extrabold text-primary">1,284</p>
+              <div className="flex h-40 items-end justify-between gap-3">
+                {[82, 74, 42, 58, 49, 36].map((v, i) => (
+                  <div key={i} className="w-full rounded-t-2xl bg-primary/75" style={{ height: `${v * 1.2}px` }} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <h2 className="text-2xl font-extrabold">الأطباء الأكثر إحالة</h2>
+              {[
+                { name: "د. أحمد الشمري", count: 142 },
+                { name: "د. ليلى حسن", count: 118 },
+                { name: "د. محمد القحطاني", count: 95 },
+                { name: "د. سارة منصور", count: 64 },
+              ].map((doctor) => (
+                <div key={doctor.name} className="space-y-2">
+                  <div className="flex items-center justify-between text-sm font-bold">
+                    <span className="font-mono">{doctor.count} إحالة</span>
+                    <span>{doctor.name}</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-primary" style={{ width: `${(doctor.count / 142) * 100}%` }} />
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <h2 className="text-2xl font-extrabold">سجل الأطباء والعيادات</h2>
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[1fr_0.9fr_0.95fr_0.8fr_0.7fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>الطبيب</span>
+                <span>التخصص</span>
+                <span>المؤسسة</span>
+                <span>معلومات الاتصال</span>
+                <span>الإحالات</span>
+              </div>
+              {[
+                ["أحمد الشمري", "أمراض القلب", "مستشفى الملك فهد التخصصي", "055-123-4567", "2,480"],
+                ["ليلى حسن", "غدد صماء وسكري", "مجمع عيادات النخبة", "050-888-9900", "1,125"],
+                ["محمد القحطاني", "الأمراض الباطنية", "مركز الرحى الطبي", "054-333-2211", "842"],
+              ].map((row) => (
+                <div key={row[0]} className="grid grid-cols-[1fr_0.9fr_0.95fr_0.8fr_0.7fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <span className="font-semibold">{row[0]}</span>
+                  <span>{row[1]}</span>
+                  <span>{row[2]}</span>
+                  <span className="font-mono">{row[3]}</span>
+                  <span className="font-mono">{row[4]}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function PatientPortalDashboardScreen() {
+  return (
+    <AppFrame brand="Clinical Nexus" profile="أحمد محمد العتيبي" sideTitle="Portal Overview">
+      <div className="space-y-6">
+        <Card className="teal-gradient text-white">
+          <CardContent className="flex items-center justify-between p-8">
+            <div>
+              <p className="text-sm font-bold text-white/80">UPCOMING APPOINTMENT</p>
+              <h1 className="mt-3 text-3xl font-extrabold">General Consultation - Dr. Sarah Khalid</h1>
+              <p className="mt-2 text-white/80">Tomorrow at 10:30 AM - Lab Unit 4</p>
+            </div>
+            <Button variant="secondary">View Details</Button>
+          </CardContent>
+        </Card>
+
+        <div className="grid gap-5 xl:grid-cols-[0.46fr_1fr]">
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <h2 className="text-2xl font-extrabold">Health Trends</h2>
+              <div className="flex h-48 items-end justify-between gap-3">
+                {[42, 63, 48, 52, 39].map((v, i) => (
+                  <div key={i} className={`w-full rounded-t-2xl ${i === 1 ? "bg-primary" : "bg-teal-200"}`} style={{ height: `${v * 2}px` }} />
+                ))}
+              </div>
+              <div className="rounded-2xl bg-muted/60 p-4 text-sm leading-7 text-slate-600">
+                التحسن الملحوظ يظهر في سكر الدم الصائم. يُرجى متابعة الالتزام بالخطة الغذائية.
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-extrabold">Recent Results</h2>
+                <Button variant="ghost">View All</Button>
+              </div>
+              {[
+                ["Complete Blood Count (CBC)", "Oct 24, 2023", "تم الاعتماد", "green"],
+                ["Lipid Profile", "Oct 20, 2023", "تم الاعتماد", "green"],
+                ["HbA1c Glycemic Index", "Oct 15, 2023", "قيد المعالجة", "orange"],
+              ].map((result) => (
+                <div key={result[0]} className="flex items-center justify-between rounded-[24px] bg-muted/50 px-5 py-4">
+                  <div>
+                    <p className="text-lg font-extrabold">{result[0]}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{result[1]}</p>
+                  </div>
+                  <StatusPill tone={result[3] as "green" | "orange"}>{result[2]}</StatusPill>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function NotificationsCenterScreen() {
+  return (
+    <AppFrame brand="Clinical Nexus" profile="د. أحمد علي" sideTitle="Notifications">
+      <div className="space-y-6">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold">Notifications Center</h1>
+          <p className="mt-2 text-sm text-muted-foreground">إدارة رسائل التنبيه والتسليم للمرضى والأطباء</p>
+        </div>
+        <div className="grid gap-5 md:grid-cols-3">
+          <MetricTile title="Failed SMS Alert" value="12" danger />
+          <MetricTile title="Delivery Success Rate" value="98.5%" />
+          <MetricTile title="Today's Volume" value="1,482" />
+        </div>
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <div className="grid gap-3 md:grid-cols-[0.28fr_0.28fr_0.28fr_1fr]">
+              <Button>Send New Alert</Button>
+              <Input placeholder="Date Range" />
+              <Input placeholder="Status: All" />
+              <Input placeholder="Search by recipient name..." />
+            </div>
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[0.75fr_0.8fr_0.75fr_1.15fr_0.7fr_0.9fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>Action</span>
+                <span>Timestamp</span>
+                <span>Status</span>
+                <span>Content Preview</span>
+                <span>Type</span>
+                <span>Recipient</span>
+              </div>
+              {[
+                ["Resend", "10:24 AM", "Delivered", "تأكيد حجز جاهز الآن، يرجى مراجعة التطبيق.", "SMS", "سارة محمود", "green"],
+                ["Resend", "09:45 AM", "Failed", "تنبيه: قيمة حرجة للمريض خالد إبراهيم.", "Email", "د. أيمن خالد", "red"],
+                ["-", "08:30 AM", "Sent", "تذكير بموعدك عند الساعة 20:00.", "SMS", "محمد ياسر", "blue"],
+              ].map((row) => (
+                <div key={row[1]} className="grid grid-cols-[0.75fr_0.8fr_0.75fr_1.15fr_0.7fr_0.9fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <span>{row[0]}</span>
+                  <span className="font-mono">{row[1]}</span>
+                  <StatusPill tone={row[6] as "green" | "red" | "blue"}>{row[2]}</StatusPill>
+                  <span>{row[3]}</span>
+                  <span>{row[4]}</span>
+                  <span className="font-semibold">{row[5]}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function GlobalHieScreen() {
+  return (
+    <AppFrame brand="Precision LIMS" profile="Network Infrastructure" sideTitle="Global HIE">
+      <div className="space-y-6">
+        <div className="text-center">
+          <p className="text-sm font-bold text-primary">NETWORK INFRASTRUCTURE</p>
+          <h1 className="mt-2 text-4xl font-extrabold">Global HIE Interoperability</h1>
+        </div>
+
+        <div className="grid gap-5 xl:grid-cols-[0.34fr_1fr]">
+          <div className="space-y-5">
+            <Card>
+              <CardContent className="space-y-4 p-5">
+                <h3 className="text-xl font-extrabold">FHIR Validation</h3>
+                <VoteBar label="Patient Resources" value={100} />
+                <VoteBar label="Observation Resources" value={99} />
+                <VoteBar label="Encounter Resources" value={100} />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="space-y-4 p-5">
+                <h3 className="text-xl font-extrabold">Strategic Partnerships</h3>
+                <MiniData title="Latency Rate" value="12ms" />
+                <MiniData title="Uptime SLA" value="99.9%" />
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="bg-[#10253a] text-white">
+            <CardContent className="space-y-5 p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-2xl font-extrabold">Active Data Nodes</h2>
+                  <p className="mt-2 text-sm text-white/70">WHO HQ, Geneva | CDC, Atlanta | MoH, Riyadh</p>
+                </div>
+                <StatusPill tone="orange">Latency 45ms</StatusPill>
+              </div>
+              <div className="relative min-h-[520px] overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_center,#12314b,#071726)]">
+                <div className="absolute inset-[10%] rounded-[40px] border border-cyan-300/20" />
+                {[
+                  "left-[18%] top-[28%]",
+                  "left-[52%] top-[24%]",
+                  "left-[68%] top-[42%]",
+                  "left-[43%] top-[58%]",
+                ].map((pos, i) => (
+                  <span key={i} className={`absolute ${pos} size-3 rounded-full bg-cyan-300 shadow-[0_0_18px_rgba(103,232,249,0.9)]`} />
+                ))}
+                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <path d="M18 28 C40 18, 52 24, 68 42" stroke="#1dd3b0" strokeWidth="0.35" fill="none" opacity="0.45" />
+                  <path d="M18 28 C25 46, 34 56, 43 58" stroke="#1dd3b0" strokeWidth="0.35" fill="none" opacity="0.35" />
+                  <path d="M52 24 C58 34, 66 38, 68 42" stroke="#1dd3b0" strokeWidth="0.35" fill="none" opacity="0.35" />
+                </svg>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function PharmacogenomicsScreen() {
+  return (
+    <AppFrame brand="Precision LIMS" profile="Khalid Mansour" sideTitle="Pharmacogenomics">
+      <div className="grid gap-6 xl:grid-cols-[0.34fr_1fr]">
+        <div className="space-y-5">
+          <Button className="w-full">Clinical Action Plan</Button>
+          <Button variant="secondary" className="w-full">Export PDF</Button>
+          <Card>
+            <CardContent className="space-y-3 p-5">
+              <h3 className="text-xl font-extrabold">SNP Variant Map</h3>
+              {[
+                ["CYP2C9", "*3/*3", "Critical", "red"],
+                ["VKORC1", "A/A", "Increased Sensitivity", "blue"],
+                ["CYP4F2", "*1/*1", "Wild-type", "green"],
+                ["CYP2C19", "*1/*17", "Rapid Metabolizer", "green"],
+              ].map((v) => (
+                <div key={v[0]} className="rounded-2xl bg-muted/50 px-4 py-3">
+                  <div className="flex items-center justify-between">
+                    <StatusPill tone={v[3] as "red" | "blue" | "green"}>{v[2]}</StatusPill>
+                    <span className="font-bold text-primary">{v[0]}</span>
+                  </div>
+                  <p className="mt-2 font-mono text-sm text-slate-600">Variant: {v[1]}</p>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-5">
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="text-center">
+                <p className="font-mono text-xs text-slate-400">GEN-2026-4421 | PRECISION GENOMICS REPORT</p>
+                <h1 className="mt-3 text-4xl font-extrabold">Khalid Mansour | خالد منصور</h1>
+                <p className="mt-2 text-sm text-muted-foreground">Personalized pharmacogenomic profile focusing on cardiovascular and metabolic genotyping.</p>
+              </div>
+
+              <div className="rounded-[28px] bg-muted/50 p-6">
+                <div className="flex items-center justify-between">
+                  <StatusPill tone="green">LIVE SIMULATION</StatusPill>
+                  <h2 className="text-2xl font-extrabold">Hepatic Metabolic Pathway (Warfarin)</h2>
+                </div>
+                <div className="mt-6 grid items-center gap-6 md:grid-cols-[0.25fr_1fr_0.25fr]">
+                  <div className="text-center text-destructive">
+                    <AlertTriangle className="mx-auto size-6" />
+                    <p className="mt-2 text-xs font-bold">TOXICITY RISK</p>
+                  </div>
+                  <div className="relative h-24">
+                    <div className="absolute left-0 right-0 top-1/2 h-1 -translate-y-1/2 bg-slate-300" />
+                    <div className="absolute right-[44%] top-1/2 h-16 w-28 -translate-y-1/2 rounded-[22px] border-2 border-primary bg-white text-center shadow-sm">
+                      <p className="mt-3 font-bold text-primary">CYP2C9*3</p>
+                      <p className="text-xs text-destructive">POOR METABOLIZER</p>
+                    </div>
+                    <div className="absolute left-0 top-1/2 size-3 -translate-y-1/2 rounded-full bg-destructive" />
+                    <div className="absolute right-0 top-1/2 size-3 -translate-y-1/2 rounded-full bg-primary" />
+                  </div>
+                  <div className="rounded-[22px] border-2 border-dashed border-slate-300 bg-white p-4 text-center">
+                    <p className="font-bold text-slate-600">WARFARIN</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-5 lg:grid-cols-2">
+                <Card className="bg-[#fff5f3]">
+                  <CardContent className="space-y-4 p-5">
+                    <h3 className="text-xl font-extrabold text-destructive">Critical Interaction Alerts</h3>
+                    <p className="text-sm leading-7 text-slate-700">
+                      Severe Bleeding Risk with Warfarin / CYP2C9*3. Standard dosing will lead to supratherapeutic levels and critical hemorrhaging.
+                    </p>
+                    <div className="rounded-2xl bg-destructive px-4 py-3 text-center text-sm font-bold text-white">Level 1 - High</div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="space-y-4 p-5">
+                    <h3 className="text-xl font-extrabold">Personalized Dosing Recommendations</h3>
+                    {[
+                      ["Warfarin", "5.0 mg/day", "mg/day 1.5", "95%"],
+                      ["Clopidogrel", "mg/day 75", "mg/day 75", "82%"],
+                      ["Simvastatin", "40 mg/day", "mg/day 20", "88%"],
+                    ].map((row) => (
+                      <div key={row[0]} className="grid grid-cols-[0.7fr_0.9fr_0.9fr_0.45fr] gap-3 rounded-2xl bg-muted/50 px-4 py-3 text-sm">
+                        <span className="font-bold">{row[0]}</span>
+                        <span className="font-mono">{row[1]}</span>
+                        <span className="font-mono text-destructive">{row[2]}</span>
+                        <span className="font-mono">{row[3]}</span>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </AppFrame>
   );
