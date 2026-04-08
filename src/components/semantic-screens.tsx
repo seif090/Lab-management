@@ -1077,6 +1077,435 @@ function AiDiagnosticHubScreen() {
   );
 }
 
+function SampleRejectionScreen() {
+  return (
+    <AppFrame brand="Clinical Nexus LIMS" profile="أ. فهد الشمري" sideTitle="رفض العينات">
+      <div className="grid gap-6 xl:grid-cols-[0.38fr_1fr_0.52fr]">
+        <div className="space-y-5">
+          <Button className="w-full">اعتماد الرفض النهائي</Button>
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <h3 className="text-lg font-extrabold">بيانات التوثيق الفني</h3>
+              <MiniData title="فني المختبر المسؤول" value="فهد الشمري" />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <MiniData title="رقم المحطة" value="WS-04" />
+                <MiniData title="التوقيت" value="11:22:04" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-[#eefaf5]">
+            <CardContent className="space-y-4 p-5">
+              <h3 className="text-lg font-extrabold text-primary">طلب عينة بديلة</h3>
+              <p className="text-sm leading-7 text-slate-600">
+                يمكن طلب إعادة سحب عاجلة من الفريق السريري وإرفاق توجيه مباشر.
+              </p>
+              <Button className="w-full">إرسال طلب عينة جديدة</Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardContent className="space-y-6 p-8">
+            <div className="text-center">
+              <p className="font-mono text-xs text-slate-400">ISO 15189 | REJECTION MANAGEMENT</p>
+              <h1 className="mt-3 text-4xl font-extrabold">توثيق رفض العينة</h1>
+              <p className="mt-2 text-sm text-muted-foreground">يجب توثيق جميع أسباب الرفض وسبل التواصل مع الفريق الطبي.</p>
+            </div>
+
+            <div className="rounded-[28px] bg-muted/60 p-6">
+              <div className="flex items-center justify-between">
+                <StatusPill tone="orange">PENDING REJECTION</StatusPill>
+                <span className="font-mono text-sm text-primary">LAB-2026-00452</span>
+              </div>
+              <div className="mt-4 grid gap-4 md:grid-cols-3">
+                <MiniData title="اسم المريض" value="ليلى عبدالرحمن القحطاني" />
+                <MiniData title="الوحدة" value="Clinical Chemistry" />
+                <MiniData title="نوع العينة" value="Serum (SST)" />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-2xl font-extrabold">أسباب الرفض المعيارية</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                <SelectionCard title="Insufficient Volume" subtitle="حجم العينة غير كافٍ للاختبارات" active />
+                <SelectionCard title="Hemolysis" subtitle="تحلل دم مؤثر على التحاليل" danger />
+                <SelectionCard title="Mislabeling" subtitle="خطأ في بيانات المريض أو الملصق" />
+                <SelectionCard title="Clotted Sample" subtitle="تجلط غير مرغوب في العينة" />
+              </div>
+            </div>
+
+            <label className="block space-y-2">
+              <span className="text-sm font-bold">TECHNICAL COMMENTS</span>
+              <textarea className="ghost-outline min-h-28 w-full rounded-[24px] bg-card p-4 text-sm outline-none focus-visible:ring-4 focus-visible:ring-ring/70" placeholder="يرجى كتابة الملاحظات التقنية التفصيلية..." />
+            </label>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <Input placeholder="اسم الطبيب المُبلغ" />
+              <Input placeholder="وقت وتاريخ التواصل" className="font-mono" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="space-y-4 p-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-extrabold">قرارات الرفض المعلقة</h2>
+              <StatusPill tone="blue">4</StatusPill>
+            </div>
+            {[
+              { id: "LAB-2026-00452", name: "ليلى عبدالرحمن القحطاني", dept: "Clinical Chemistry", active: true },
+              { id: "LAB-2026-00458", name: "محمد خالد العتيبي", dept: "Hematology", active: false },
+              { id: "LAB-2026-00460", name: "سارة منصور", dept: "Microbiology", active: false },
+            ].map((item) => (
+              <div key={item.id} className={`rounded-[24px] px-4 py-4 ${item.active ? "border border-primary bg-[#f3fbf9]" : "bg-muted/50"}`}>
+                <p className="font-mono text-xs text-slate-400">{item.id}</p>
+                <p className="mt-1 text-lg font-extrabold">{item.name}</p>
+                <p className="text-sm text-muted-foreground">{item.dept}</p>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function QualityControlScreen() {
+  return (
+    <AppFrame brand="LIMS Clinical Curator" profile="Dr. Sarah Ahmed" sideTitle="Quality Control">
+      <div className="space-y-6">
+        <div className="flex flex-wrap gap-3">
+          <Button>Run System QC</Button>
+          <Button variant="secondary">Export Report</Button>
+          <Button variant="secondary">Calibration Log</Button>
+        </div>
+
+        <div className="grid gap-5 xl:grid-cols-3">
+          <InstrumentCard title="Architect i2000" section="IMMUNOASSAY" status="Operational" metricA="Stable" metricB="92%" />
+          <InstrumentCard title="Sysmex XN" section="HEMATOLOGY" status="Maintenance" metricA="Ahmed S" metricB="12%" warning />
+          <InstrumentCard title="Cobas 6000" section="CLINICAL CHEMISTRY" status="Operational" metricA="99.8%" metricB="84%" />
+        </div>
+
+        <div className="grid gap-5 xl:grid-cols-[0.4fr_1fr]">
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <h3 className="text-xl font-extrabold">Westgard Analysis</h3>
+              {[
+                ["1₃s Rule Violation", "Observed value exceeds 3SD.", "red"],
+                ["1₂s Warning Rule", "Exceeds 2SD limit.", "orange"],
+                ["2₂s Systematic Rule", "Clean", "green"],
+              ].map((rule) => (
+                <div key={rule[0]} className={`rounded-2xl p-4 ${rule[2] === "red" ? "bg-[#fff1ef]" : rule[2] === "orange" ? "bg-[#fff8e8]" : "bg-[#eefaf5]"}`}>
+                  <p className="font-bold">{rule[0]}</p>
+                  <p className="mt-2 text-sm text-slate-600">{rule[1]}</p>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-extrabold">Levey-Jennings</h2>
+                <div className="flex gap-2">
+                  <Button variant="secondary" size="sm">Monthly View</Button>
+                  <Button variant="secondary" size="sm">Daily View</Button>
+                </div>
+              </div>
+              <QcChart />
+              <div className="grid gap-4 sm:grid-cols-4">
+                <MiniData title="Samples Count" value="42" />
+                <MiniData title="% Coeff. Var" value="1.44%" />
+                <MiniData title="Stand. Dev" value="1.45" />
+                <MiniData title="Mean" value="100.20" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function PatientProfileScreen() {
+  return (
+    <AppFrame brand="Clinical Ops" profile="سارة أحمد الهاشمي" sideTitle="ملف المريض">
+      <div className="grid gap-6 xl:grid-cols-[1fr_0.36fr]">
+        <div className="space-y-5">
+          <Card>
+            <CardContent className="space-y-6 p-8">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h1 className="text-4xl font-extrabold">سارة أحمد الهاشمي</h1>
+                  <p className="mt-2 font-mono text-sm text-slate-500">UID: 2024-8842-ML</p>
+                </div>
+                <div className="flex h-24 w-24 items-center justify-center rounded-[28px] bg-[linear-gradient(135deg,#d6ecf0,#9ab8c7)] text-primary">
+                  <User className="size-10" />
+                </div>
+              </div>
+
+              <div className="grid gap-5 lg:grid-cols-2">
+                <DetailGroup
+                  title="البيانات الديموغرافية"
+                  items={[
+                    ["الجنس", "أنثى"],
+                    ["تاريخ الميلاد", "2020-01-12"],
+                    ["الجنسية", "السعودية"],
+                    ["رقم الهوية/الإقامة", "1029384756"],
+                  ]}
+                />
+                <DetailGroup
+                  title="معلومات الاتصال"
+                  items={[
+                    ["الهاتف", "456 123 50 966+"],
+                    ["البريد الإلكتروني", "sara.alhashmi@example.com"],
+                    ["ولي الأمر", "إبراهيم الهاشمي"],
+                    ["العنوان", "حي الربوة - جدة"],
+                  ]}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-extrabold">نظرة عامة على المؤشرات الرئيسية</h2>
+                <StatusPill tone="blue">HbA1c</StatusPill>
+              </div>
+              <div className="flex h-52 items-end justify-between gap-4">
+                {[5.8, 5.9, 6.0, 6.2].map((value, index) => (
+                  <div key={index} className="flex w-full flex-col items-center gap-3">
+                    <div className={`w-full rounded-t-2xl ${index === 0 ? "bg-primary" : "bg-primary/25"}`} style={{ height: `${value * 28}px` }} />
+                    <span className="text-xs font-mono text-slate-400">{["Q4 2023", "Q3 2023", "Q2 2023", "Q1 2023"][index]}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-5">
+          <Card>
+            <CardContent className="space-y-3 p-5">
+              <h3 className="text-lg font-extrabold">المعلومات الشخصية</h3>
+              {["سجل الطلبات", "الزيارات السابقة", "المرفقات الطبية", "الملاحظات الطبية"].map((item, index) => (
+                <div key={item} className={`rounded-2xl px-4 py-3 text-sm font-bold ${index === 0 ? "bg-primary text-white" : "bg-muted/50 text-slate-600"}`}>
+                  {item}
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+          <Card className="bg-[#fff1ef]">
+            <CardContent className="p-5">
+              <p className="text-lg font-extrabold text-destructive">قاصر تحت سن الرعاية</p>
+              <p className="mt-2 text-sm text-slate-600">Policy #98-002-L</p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function PatientsListScreen() {
+  return (
+    <AppFrame brand="Clinical Ops" profile="Clinical Registry" sideTitle="سجل المرضى">
+      <div className="space-y-6">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold">سجل المرضى</h1>
+          <p className="mt-2 text-sm text-muted-foreground">إدارة بيانات المرضى والبحث السريع عن الملفات الطبية</p>
+        </div>
+
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <div className="relative">
+              <Search className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+              <Input placeholder="بحث ذكي: ابحث بالاسم أو رقم الهوية أو الباركود..." className="pr-11" />
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="secondary">الكل</Button>
+              <Button variant="secondary">نتائج حرجة</Button>
+              <Button variant="secondary">مواعيد اليوم</Button>
+              <Button variant="secondary">عينات معلقة</Button>
+              <Button variant="secondary">حالة STAT</Button>
+            </div>
+
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[0.9fr_1.1fr_0.8fr_0.8fr_0.8fr_0.75fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>رقم الملف</span>
+                <span>اسم المريض</span>
+                <span>العمر/النوع</span>
+                <span>آخر زيارة</span>
+                <span>الطلبات</span>
+                <span>الحالة</span>
+              </div>
+              {[
+                ["LAB-2026-00412", "يوسف عبد الرحمن الشمري", "42 / ذكر", "2024/05/12", "14", "نتائج حرجة", "red"],
+                ["LAB-2026-00411", "فاطمة القحطاني", "29 / أنثى", "2024/05/10", "03", "مستقر", "green"],
+                ["LAB-2026-00398", "محمد خالد الزهراني", "65 / ذكر", "2024/04/28", "22", "قيد المعالجة", "orange"],
+              ].map((row) => (
+                <div key={row[0]} className="grid grid-cols-[0.9fr_1.1fr_0.8fr_0.8fr_0.8fr_0.75fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <span className="font-mono font-bold text-primary">{row[0]}</span>
+                  <span className="font-semibold">{row[1]}</span>
+                  <span>{row[2]}</span>
+                  <span className="font-mono">{row[3]}</span>
+                  <span className="font-mono">{row[4]}</span>
+                  <StatusPill tone={row[6] as "red" | "green" | "orange"}>{row[5]}</StatusPill>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function TestCatalogScreen() {
+  return (
+    <AppFrame brand="Clinical Ops" profile="Clinical Directory" sideTitle="Medical Test Catalog">
+      <div className="space-y-6">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold">Medical Test Catalog</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Directory of available laboratory analyses and clinical panels</p>
+        </div>
+
+        <div className="flex flex-wrap gap-3">
+          {["Microbiology", "Immunology", "Oncology", "Hormones", "Biochemistry", "Hematology", "All Categories"].map((cat, index) => (
+            <Button key={cat} variant={index === 6 ? "default" : "secondary"}>{cat}</Button>
+          ))}
+        </div>
+
+        <div className="grid gap-5 xl:grid-cols-[0.42fr_1fr]">
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <StatusPill tone="orange">Hormones / Diabetes</StatusPill>
+              <h2 className="text-3xl font-extrabold">HbA1c</h2>
+              <p className="text-lg font-bold text-primary">السكر التراكمي</p>
+              <div className="grid gap-3 text-sm">
+                <MiniData title="Code" value="DIA-002" />
+                <MiniData title="TAT" value="Next Day" />
+                <MiniData title="Sample" value="Serum" />
+              </div>
+              <p className="font-mono text-3xl font-extrabold text-primary">EGP 185.00</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="rounded-[28px] bg-muted/50 p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <StatusPill tone="blue">HEMATOLOGY</StatusPill>
+                    <h2 className="mt-3 text-3xl font-extrabold">Complete Blood Count (CBC)</h2>
+                    <p className="mt-1 text-lg font-bold text-primary">صورة دم كاملة</p>
+                  </div>
+                  <Button size="icon">
+                    <FileText className="size-4" />
+                  </Button>
+                </div>
+                <div className="mt-5 grid gap-4 md:grid-cols-4 text-sm">
+                  <MiniData title="Price (Public)" value="EGP 220.00" />
+                  <MiniData title="Pricing (Internal)" value="EGP 150.00" />
+                  <MiniData title="Turnaround Time" value="4 - 6 Hours" />
+                  <MiniData title="Sample Type" value="EDTA Whole Blood" />
+                </div>
+              </div>
+
+              <div className="overflow-hidden rounded-[28px] bg-white">
+                <div className="grid grid-cols-[0.75fr_0.8fr_0.8fr_0.9fr_0.9fr_1fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                  <span>Actions</span>
+                  <span>Status</span>
+                  <span>TAT</span>
+                  <span>Reference</span>
+                  <span>Specimen</span>
+                  <span>Test Name</span>
+                </div>
+                {[
+                  ["عرض", "ACTIVE", "Hours 2", "70 - 105 mg/dL", "Fluoride Plasma", "Glucose (Fasting)"],
+                  ["عرض", "ACTIVE", "Hours 3", "0.7 - 1.3 mg/dL", "Serum/Urine", "Creatinine"],
+                  ["عرض", "ACTIVE", "Hours 4", "Up to 41 U/L", "Serum", "ALT (SGPT)"],
+                ].map((row) => (
+                  <div key={row[5]} className="grid grid-cols-[0.75fr_0.8fr_0.8fr_0.9fr_0.9fr_1fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                    <span>{row[0]}</span>
+                    <StatusPill tone="green">{row[1]}</StatusPill>
+                    <span>{row[2]}</span>
+                    <span className="font-mono">{row[3]}</span>
+                    <span>{row[4]}</span>
+                    <span className="font-semibold">{row[5]}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function InventoryScreen() {
+  return (
+    <AppFrame brand="LIMS Clinical" profile="Core LIMS" sideTitle="إدارة المخزون">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-extrabold">إدارة المخزون والكواشف</h1>
+            <p className="mt-2 text-sm text-muted-foreground">مراقبة توفر المستلزمات الطبية والامتثال لمعيار ISO 15189</p>
+          </div>
+          <div className="flex gap-3">
+            <Button>إضافة مادة جديدة</Button>
+            <Button variant="secondary">طلب داخلي</Button>
+          </div>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-4">
+          <MetricTile title="دقة تتبع الدفعات" value="94%" />
+          <MetricTile title="إجمالي قيمة المخزون" value="42,500" unit="USD" />
+          <MetricTile title="ينتهي صلاحيتها قريبًا" value="08" />
+          <MetricTile title="مواد منخفضة المخزون" value="12" danger />
+        </div>
+
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-extrabold">سجل المخزون والتتبع</h2>
+              <Button variant="secondary" size="icon">
+                <SlidersHorizontal className="size-4" />
+              </Button>
+            </div>
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[1.1fr_0.9fr_0.9fr_0.9fr_0.85fr_0.75fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>اسم المادة</span>
+                <span>رقم الكتالوج</span>
+                <span>LOT</span>
+                <span>تاريخ الانتهاء</span>
+                <span>المخزون الحالي</span>
+                <span>الحالة</span>
+              </div>
+              {[
+                ["Glucose Oxidase Reagent", "CAT-98231-A", "LOT-772901", "2025-08-12", "Kits 45", "مستقر", "green"],
+                ["EDTA Tubes (K2) 4ml", "CAT-11822-B", "LOT-998122", "2024-05-20", "Boxes 8", "منخفض", "orange"],
+                ["Lipid Panel Controls", "CAT-44501-L", "LOT-001293", "2024-03-01", "Vials 12", "منتهي", "red"],
+              ].map((row) => (
+                <div key={row[1]} className="grid grid-cols-[1.1fr_0.9fr_0.9fr_0.9fr_0.85fr_0.75fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <span className="font-semibold">{row[0]}</span>
+                  <span>{row[1]}</span>
+                  <span>{row[2]}</span>
+                  <span className="font-mono">{row[3]}</span>
+                  <span>{row[4]}</span>
+                  <StatusPill tone={row[6] as "green" | "orange" | "red"}>{row[5]}</StatusPill>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
 function AppFrame({
   children,
   brand,
@@ -1294,6 +1723,130 @@ function FeatureBox({
       </div>
       <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
     </div>
+  );
+}
+
+function SelectionCard({
+  title,
+  subtitle,
+  active,
+  danger,
+}: {
+  title: string;
+  subtitle: string;
+  active?: boolean;
+  danger?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      className={`rounded-[24px] border p-5 text-right transition ${
+        active
+          ? "border-primary bg-[#f3fbf9]"
+          : danger
+            ? "border-rose-200 bg-[#fff5f3]"
+            : "border-border bg-white hover:bg-muted/40"
+      }`}
+    >
+      <p className="text-lg font-extrabold">{title}</p>
+      <p className="mt-2 text-sm leading-7 text-slate-600">{subtitle}</p>
+    </button>
+  );
+}
+
+function InstrumentCard({
+  title,
+  section,
+  status,
+  metricA,
+  metricB,
+  warning,
+}: {
+  title: string;
+  section: string;
+  status: string;
+  metricA: string;
+  metricB: string;
+  warning?: boolean;
+}) {
+  return (
+    <Card className={warning ? "bg-[#fff8e8]" : "bg-white/90"}>
+      <CardContent className="space-y-4 p-5">
+        <div className="flex items-center justify-between">
+          <StatusPill tone={warning ? "orange" : "green"}>{status}</StatusPill>
+          <span className="text-xs font-bold text-slate-400">{section}</span>
+        </div>
+        <div>
+          <h3 className="text-2xl font-extrabold">{title}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">#A204</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <MiniData title="Metric A" value={metricA} />
+          <MiniData title="Metric B" value={metricB} />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function QcChart() {
+  const points = [46, 52, 40, 48, 61, 33, 22, 45, 51, 43, 36, 12, 30];
+  const width = 760;
+  const height = 280;
+  const path = points
+    .map((point, index) => {
+      const x = (index / (points.length - 1)) * width;
+      const y = height - point * 3.2;
+      return `${index === 0 ? "M" : "L"} ${x} ${y}`;
+    })
+    .join(" ");
+
+  return (
+    <div className="rounded-[28px] bg-white p-4">
+      <svg viewBox={`0 0 ${width} ${height}`} className="h-[320px] w-full">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <line
+            key={index}
+            x1="0"
+            x2={width}
+            y1={(height / 8) * index}
+            y2={(height / 8) * index}
+            stroke="#e6ecef"
+            strokeWidth="1"
+          />
+        ))}
+        <path d={path} fill="none" stroke="#0f766e" strokeWidth="4" strokeLinecap="round" />
+        {points.map((point, index) => {
+          const x = (index / (points.length - 1)) * width;
+          const y = height - point * 3.2;
+          return <circle key={index} cx={x} cy={y} r={index > 10 ? 5 : 3.5} fill={index > 10 ? "#dc2626" : "#0f766e"} />;
+        })}
+      </svg>
+    </div>
+  );
+}
+
+function DetailGroup({
+  title,
+  items,
+}: {
+  title: string;
+  items: [string, string][];
+}) {
+  return (
+    <Card>
+      <CardContent className="space-y-4 p-5">
+        <h3 className="text-xl font-extrabold">{title}</h3>
+        <div className="space-y-3">
+          {items.map(([label, value]) => (
+            <div key={label} className="flex items-center justify-between rounded-2xl bg-muted/50 px-4 py-3">
+              <span className="text-sm text-muted-foreground">{label}</span>
+              <span className="font-semibold text-foreground">{value}</span>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
