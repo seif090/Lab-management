@@ -46,6 +46,18 @@ const semanticScreenSlugs = new Set([
   "notifications_center",
   "global_hie",
   "pharmacogenomics",
+  "clinical_research",
+  "tele_pathology",
+  "exome_ngs",
+  "data_governance",
+  "detailed_rbac_matrix",
+  "enhanced_audit_log_rbac_tracking",
+  "enhanced_system_settings",
+  "compliance_training",
+  "iot_maintenance",
+  "predictive_analytics",
+  "public_health_surveillance",
+  "quick_actions",
 ]);
 
 export function hasSemanticScreen(slug: string) {
@@ -100,6 +112,30 @@ export function SemanticScreen({ screen }: { screen: Screen }) {
       return <GlobalHieScreen />;
     case "pharmacogenomics":
       return <PharmacogenomicsScreen />;
+    case "clinical_research":
+      return <ClinicalResearchScreen />;
+    case "tele_pathology":
+      return <TelePathologyScreen />;
+    case "exome_ngs":
+      return <ExomeNgsScreen />;
+    case "data_governance":
+      return <DataGovernanceScreen />;
+    case "detailed_rbac_matrix":
+      return <RbacMatrixScreen />;
+    case "enhanced_audit_log_rbac_tracking":
+      return <AuditLogScreen />;
+    case "enhanced_system_settings":
+      return <SystemSettingsScreen />;
+    case "compliance_training":
+      return <ComplianceTrainingScreen />;
+    case "iot_maintenance":
+      return <IotMaintenanceScreen />;
+    case "predictive_analytics":
+      return <PredictiveAnalyticsScreen />;
+    case "public_health_surveillance":
+      return <PublicHealthScreen />;
+    case "quick_actions":
+      return <QuickActionsScreen />;
     default:
       return null;
   }
@@ -1931,6 +1967,614 @@ function PharmacogenomicsScreen() {
                     ))}
                   </CardContent>
                 </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function ClinicalResearchScreen() {
+  return (
+    <AppFrame brand="Precision LIMS" profile="د. سارة المنصور" sideTitle="Research">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-bold text-primary">Trial ID: CVX-2024-III</p>
+            <h1 className="mt-2 text-4xl font-extrabold">Phase III Cancer Vaccine Trial</h1>
+          </div>
+          <Button>ACTIVE TRIAL</Button>
+        </div>
+        <div className="grid gap-5 xl:grid-cols-[0.34fr_1fr]">
+          <Card className="bg-[#1e2740] text-white">
+            <CardContent className="space-y-4 p-5">
+              <h3 className="text-xl font-extrabold">تتبع الأعراض الجانبية</h3>
+              <AlertCard title="Anaphylactic Shock - Site 04" text="Immediate protocol suspension applied." tone="red" />
+              <AlertCard title="Injection Site Erythema" text="Mild swelling reported in 12% of cohort B." tone="amber" />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <h2 className="text-2xl font-extrabold">حالة استقطاب المشاركين</h2>
+              <VoteBar label="تم الفحص الأولي" value={240} />
+              <VoteBar label="مؤهل للدراسة" value={84} />
+              <VoteBar label="تمت العشوائية" value={53} />
+              <VoteBar label="الجرعة الأولى" value={44} tone="amber" />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function TelePathologyScreen() {
+  return (
+    <AppFrame brand="LIMS Curator" profile="د. سارة الفايدي" sideTitle="Tele-Pathology">
+      <div className="grid gap-6 xl:grid-cols-[0.38fr_1fr]">
+        <Card>
+          <CardContent className="space-y-4 p-5">
+            <h2 className="text-2xl font-extrabold">مناقشة الحالة</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="h-28 rounded-2xl bg-[linear-gradient(135deg,#7f8fa6,#2c3e50)]" />
+              <div className="h-28 rounded-2xl bg-[linear-gradient(135deg,#d9e7eb,#9ab8c7)]" />
+            </div>
+            <ChatBubble author="د. سارة" text="هل يمكن ملاحظة التجمعات الخلوية حول الفحص العلوي الأيسر؟" />
+            <ChatBubble author="أنت" text="نعم، هناك علامة واضحة وسأبدأ القياس الآن على الفحص الدقيق." mine />
+            <div className="flex items-center gap-3 rounded-2xl bg-muted/60 p-3">
+              <Input placeholder="اكتب رسالة..." className="border-0 bg-transparent shadow-none" />
+              <Button size="icon">
+                <MessageSquare className="size-4" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-[#09131a] text-white">
+          <CardContent className="space-y-4 p-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-extrabold">المشاورات الطبية عن بُعد</h1>
+                <p className="mt-2 text-sm text-white/70">PATH-2026-4421</p>
+              </div>
+              <Button variant="secondary">تصدير الحالة</Button>
+            </div>
+            <div className="relative min-h-[680px] overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_center,#123245,#081016_45%,#04080c)]">
+              <div className="absolute inset-[14%] rounded-full border border-cyan-300/20" />
+              <div className="absolute inset-[22%] rounded-full border border-cyan-300/15" />
+              <div className="absolute inset-[30%] rounded-full border border-cyan-300/10" />
+              <div className="absolute left-1/2 top-1/2 size-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300/70 shadow-[0_0_50px_rgba(103,232,249,0.85)]" />
+              <div className="absolute right-[38%] top-[34%] rounded-xl bg-[#d7f5ef] px-3 py-2 text-xs font-bold text-primary ambient-shadow">
+                Suspected Mitosis
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function ExomeNgsScreen() {
+  return (
+    <AppFrame brand="LIMS Curator" profile="Dr. Clinical Curator" sideTitle="NGS Lab">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-bold text-primary">Precision Genomic Analysis - Station B-12</p>
+            <h1 className="mt-2 text-4xl font-extrabold">تحليل الإكسوم المتقدم (NGS Lab)</h1>
+          </div>
+          <Button>Live Sequencing</Button>
+        </div>
+        <div className="grid gap-5 xl:grid-cols-[0.34fr_1fr]">
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <h3 className="text-xl font-extrabold">Cluster Density Map</h3>
+              <div className="grid grid-cols-6 gap-2 rounded-[24px] bg-[#10253a] p-4">
+                {Array.from({ length: 36 }).map((_, i) => (
+                  <div key={i} className="aspect-square rounded-sm" style={{ backgroundColor: `rgba(45,212,191,${0.15 + ((i % 6) * 0.12)})` }} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="flex items-center justify-between">
+                <p className="font-mono text-sm text-slate-500">Run ID: ILLUM-8842</p>
+                <MetricTile title="Completion" value="82%" />
+              </div>
+              <div className="grid gap-4 md:grid-cols-4">
+                <MiniData title="Flow Cell Temp" value="20.4°C" />
+                <MiniData title="Quality Score" value="Q30" />
+                <MiniData title="Est. Remaining" value="03h 15m" />
+                <MiniData title="Elapsed Time" value="18h 42m" />
+              </div>
+              <div className="grid gap-5 lg:grid-cols-[1fr_0.44fr]">
+                <Card>
+                  <CardContent className="space-y-4 p-5">
+                    <h3 className="text-xl font-extrabold">Exome Results</h3>
+                    {[
+                      ["BRCA1", "c.5266dupC", "Pathogenic"],
+                      ["TP53", "c.743G>A", "Pathogenic"],
+                      ["EGFR", "c.2573T>G", "VUS"],
+                      ["MSH2", "c.1250G>C", "Benign"],
+                    ].map((row) => (
+                      <div key={row[0]} className="grid grid-cols-[0.55fr_1fr_0.7fr] gap-3 rounded-2xl bg-muted/50 px-4 py-3 text-sm">
+                        <span className="font-bold text-primary">{row[0]}</span>
+                        <span className="font-mono">{row[1]}</span>
+                        <span>{row[2]}</span>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="space-y-4 p-5">
+                    <h3 className="text-xl font-extrabold">Coverage Depth</h3>
+                    <div className="flex h-48 items-end justify-between gap-2">
+                      {[35, 52, 68, 84, 96, 82, 61, 42].map((v, i) => (
+                        <div key={i} className="w-full rounded-t-2xl bg-primary/70" style={{ height: `${v * 1.4}px` }} />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function DataGovernanceScreen() {
+  return (
+    <AppFrame brand="LIMS Curator" profile="Governance Suite" sideTitle="Audit Log">
+      <div className="space-y-6">
+        <div className="grid gap-5 md:grid-cols-3">
+          <MetricTile title="HIPAA Compliant" value="100%" />
+          <MetricTile title="AES-256 Bit" value="Secure" />
+          <MetricTile title="Audit Readiness Score" value="94%" />
+        </div>
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <h1 className="text-4xl font-extrabold">حوكمة البيانات والامتثال</h1>
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[0.7fr_0.9fr_0.85fr_0.9fr_0.9fr_0.8fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>Status</span>
+                <span>IP Address</span>
+                <span>Timestamp</span>
+                <span>Action</span>
+                <span>Pathologist / Staff</span>
+                <span>User</span>
+              </div>
+              {[
+                ["AUTHORIZED", "192.168.1.104", "2023-11-24 14:22:10", "Genomics Decryption", "Dr. Sarah Khalil", "SK", "green"],
+                ["AUTHORIZED", "10.0.4.52", "2023-11-24 13:45:02", "Patient Record Export", "Dr. Ahmed Mansour", "AM", "green"],
+                ["DENIED", "45.23.11.201", "2023-11-24 12:15:44", "API Key Access Attempt", "Unknown User", "U", "red"],
+              ].map((row) => (
+                <div key={row[1]} className="grid grid-cols-[0.7fr_0.9fr_0.85fr_0.9fr_0.9fr_0.8fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <StatusPill tone={row[6] as "green" | "red"}>{row[0]}</StatusPill>
+                  <span className="font-mono">{row[1]}</span>
+                  <span className="font-mono">{row[2]}</span>
+                  <span>{row[3]}</span>
+                  <span>{row[4]}</span>
+                  <span>{row[5]}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function RbacMatrixScreen() {
+  return (
+    <AppFrame brand="Admin Console" profile="ISO 15189 Security" sideTitle="إدارة المستخدمين">
+      <div className="grid gap-6 xl:grid-cols-[0.34fr_1fr]">
+        <div className="space-y-5">
+          <Button className="w-full">إضافة مستخدم جديد</Button>
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <h3 className="text-xl font-extrabold">آخر محاولات الدخول</h3>
+              {["فشل محاولة دخول - ليلى عادل", "دخول ناجح - خالد الفهيد", "دخول ناجح - فهد الشمري"].map((item) => (
+                <div key={item} className="rounded-2xl bg-muted/50 px-4 py-3 text-sm">{item}</div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <h1 className="text-4xl font-extrabold">إدارة المستخدمين والصلاحيات</h1>
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[1fr_0.8fr_0.8fr_0.75fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>الموظف</span>
+                <span>الدور / القسم</span>
+                <span>الحالة</span>
+                <span>آخر دخول</span>
+              </div>
+              {[
+                ["أ. أحمد خالد", "إداري / الباثولوجيا", "نشط", "2023-10-24 08:30"],
+                ["ف. سارة محمد", "فني مختبر أول / الكيمياء الحيوية", "نشط", "2023-10-07 15:24"],
+                ["م. فهد الشمري", "إداري أنظمة", "معطل", "2023-10-14 22:20"],
+              ].map((row) => (
+                <div key={row[0]} className="grid grid-cols-[1fr_0.8fr_0.8fr_0.75fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <span className="font-semibold">{row[0]}</span>
+                  <span>{row[1]}</span>
+                  <StatusPill tone={row[2] === "نشط" ? "green" : "orange"}>{row[2]}</StatusPill>
+                  <span className="font-mono">{row[3]}</span>
+                </div>
+              ))}
+            </div>
+            <Card>
+              <CardContent className="space-y-4 p-5">
+                <h2 className="text-2xl font-extrabold">مصفوفة الصلاحيات التفصيلية (RBAC)</h2>
+                {["بيانات المرضى", "نتائج الفحوصات", "مراقبة الجودة", "الفواتير", "المخزون", "إعدادات النظام"].map((res) => (
+                  <div key={res} className="grid grid-cols-[1fr_0.55fr_0.55fr_0.55fr_0.55fr] gap-3 rounded-2xl bg-muted/50 px-4 py-3 text-sm">
+                    <span className="font-bold">{res}</span>
+                    <span>عرض</span>
+                    <span>إنشاء</span>
+                    <span>تعديل</span>
+                    <span>اعتماد</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function AuditLogScreen() {
+  return (
+    <AppFrame brand="Clinical Nexus" profile="Audit Node" sideTitle="RBAC Audit">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <Button>تصدير سجلات مشفرة</Button>
+          <div className="text-center">
+            <p className="text-sm font-bold text-primary">ISO 15189 / HIPAA COMPLIANT AUDIT NODE</p>
+            <h1 className="mt-2 text-4xl font-extrabold">سجل التدقيق وصلاحيات RBAC</h1>
+          </div>
+          <Button variant="secondary">عرض مصفوفة RBAC</Button>
+        </div>
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <div className="grid gap-4 md:grid-cols-4">
+              <Input placeholder="الفترة الزمنية" className="font-mono" />
+              <Input placeholder="نوع التحقق" />
+              <Input placeholder="الدور الوظيفي" />
+              <Input placeholder="البحث عن Hash" className="font-mono" />
+            </div>
+            <div className="overflow-hidden rounded-[28px] bg-white">
+              <div className="grid grid-cols-[0.7fr_1.1fr_1fr_0.9fr_0.9fr_1fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                <span>Status</span>
+                <span>Action Detail</span>
+                <span>Target Resource</span>
+                <span>Event Category</span>
+                <span>Admin User</span>
+                <span>Timestamp & Hash</span>
+              </div>
+              {[
+                ["GRANTED", "تم منح صلاحية Delete على Final Reports", "Role: Senior Pathologist", "PERMISSION UPDATE", "John Doe", "14:32 2023-10-24 / sha256:f7e9...", "green"],
+                ["REVOKED", "سحب صلاحية Export من Financial Data", "Role: Lab Assistant", "RBAC REVOCATION", "John Doe", "13:45 2023-10-24 / sha256:ab3c...", "red"],
+                ["COMPLETED", "توليد تقرير تدقيق دوري", "Audit Export Node", "SYSTEM EVENT", "سارة م.", "11:20 2023-10-24 / sha256:4f9b...", "blue"],
+              ].map((row) => (
+                <div key={row[5]} className="grid grid-cols-[0.7fr_1.1fr_1fr_0.9fr_0.9fr_1fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                  <StatusPill tone={row[6] as "green" | "red" | "blue"}>{row[0]}</StatusPill>
+                  <span>{row[1]}</span>
+                  <span>{row[2]}</span>
+                  <span>{row[3]}</span>
+                  <span>{row[4]}</span>
+                  <span className="font-mono">{row[5]}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function SystemSettingsScreen() {
+  return (
+    <AppFrame brand="LIMS المتطور" profile="الإعدادات" sideTitle="System Settings">
+      <div className="space-y-6">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold">إعدادات النظام المتقدمة</h1>
+          <p className="mt-2 text-sm text-muted-foreground">تهيئة وتخصيص المعايير التشغيلية والتقنية للمختبر</p>
+        </div>
+        <div className="grid gap-5 xl:grid-cols-[0.34fr_1fr]">
+          <div className="space-y-5">
+            <Card>
+              <CardContent className="space-y-4 p-5">
+                <h3 className="text-xl font-extrabold">اللغة والمنطقة</h3>
+                <div className="flex gap-3">
+                  <Button variant="secondary">English</Button>
+                  <Button>العربية</Button>
+                </div>
+                <MiniData title="التوقيت المحلي" value="adh, Saudi Arabia (GMT+03:00)" />
+              </CardContent>
+            </Card>
+            <Card className="bg-[#123f3b] text-white">
+              <CardContent className="space-y-4 p-5">
+                <h3 className="text-xl font-extrabold">النسخ الاحتياطي السحابي</h3>
+                <MiniData title="آخر مزامنة" value="2023-11-20" />
+                <Button variant="secondary" className="w-full">نسخ احتياطي الآن</Button>
+              </CardContent>
+            </Card>
+          </div>
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <h2 className="text-2xl font-extrabold">الإعدادات العامة والهوية</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Input placeholder="اسم المختبر" />
+                <Input placeholder="Lab Name (Latin)" />
+              </div>
+              <div className="rounded-[28px] bg-muted/50 p-5">
+                <h3 className="text-lg font-extrabold">شعار النظام</h3>
+                <div className="mt-4 flex items-center justify-between rounded-2xl bg-white p-4">
+                  <span className="text-sm text-muted-foreground">PNG/SVG حتى 5MB</span>
+                  <Button>تغيير الشعار</Button>
+                </div>
+              </div>
+              <h2 className="text-2xl font-extrabold">النطاقات المرجعية</h2>
+              {[
+                ["Glucose (Fasting)", "70 - 100", "mg/dL"],
+                ["Hemoglobin (HGB)", "13.5 - 17.5", "g/dL"],
+                ["TSH (Thyroid)", "0.4 - 4.2", "uIU/mL"],
+              ].map((row) => (
+                <div key={row[0]} className="grid grid-cols-[1fr_0.8fr_0.5fr] gap-3 rounded-2xl bg-muted/50 px-4 py-3 text-sm">
+                  <span className="font-bold">{row[0]}</span>
+                  <span className="font-mono">{row[1]}</span>
+                  <span>{row[2]}</span>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function ComplianceTrainingScreen() {
+  return (
+    <AppFrame brand="Clinical Curator LIMS" profile="Core Laboratory" sideTitle="Compliance">
+      <div className="grid gap-6 xl:grid-cols-[1fr_0.38fr]">
+        <div className="space-y-5">
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <h1 className="text-4xl font-extrabold">Compliance & Training Hub</h1>
+              <div className="grid gap-4 md:grid-cols-3">
+                <MiniData title="Active Staff" value="142/145" />
+                <MiniData title="Certifications" value="92% Valid" />
+                <MiniData title="Next Audit" value="14 Days" />
+              </div>
+            </CardContent>
+          </Card>
+          <div className="grid gap-5 md:grid-cols-2">
+            <SelectionCard title="Hematology Safety Protocols" subtitle="Refresher course on chemical handling." active />
+            <SelectionCard title="Data Integrity & Privacy" subtitle="Best practices for patient PII management." />
+          </div>
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <h2 className="text-2xl font-extrabold">Digital SOP Library</h2>
+              <FileRow title="Blood Sample Phlebotomy v4.2" subtitle="Updated Oct 2023 | 12 Staff Read" />
+              <FileRow title="Centrifuge Maintenance Protocols" subtitle="Updated Dec 2023 | 5 Staff Read" />
+            </CardContent>
+          </Card>
+        </div>
+        <div className="space-y-5">
+          <Card className="teal-gradient text-white">
+            <CardContent className="space-y-4 p-6 text-center">
+              <div className="mx-auto flex size-36 items-center justify-center rounded-full border-8 border-white/80 text-5xl font-extrabold">88%</div>
+              <h3 className="text-2xl font-extrabold">Audit Readiness Score</h3>
+              <Button variant="secondary" className="w-full">Generate Report</Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="space-y-3 p-5">
+              <h3 className="text-xl font-extrabold">Compliance Checklist</h3>
+              {["Instrument Calibration Logs", "Staff Competency Assessment", "Environmental Control Records"].map((item) => (
+                <div key={item} className="flex items-center justify-between rounded-2xl bg-muted/50 px-4 py-3 text-sm">
+                  <CheckCircle2 className="size-4 text-primary" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function IotMaintenanceScreen() {
+  return (
+    <AppFrame brand="LIMS Curator" profile="Dr. Clinical Curator" sideTitle="Predictive IoT">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-4xl font-extrabold">الصيانة الاستباقية للأنظمة (IoT Maintenance)</h1>
+          <Button>Schedule Service</Button>
+        </div>
+        <div className="grid gap-5 xl:grid-cols-[1fr_0.44fr]">
+          <Card>
+            <CardContent className="space-y-4 p-6">
+              <h2 className="text-2xl font-extrabold">Real-time Sensor Network</h2>
+              <div className="relative min-h-[280px] overflow-hidden rounded-[28px] bg-[linear-gradient(135deg,#eef3f6,#dde7ec)]">
+                {["left-[18%] top-[54%]", "left-[44%] top-[42%]", "left-[66%] top-[28%]"].map((pos, i) => (
+                  <span key={i} className={`absolute ${pos} size-4 rounded-full ${i === 0 ? "bg-amber-700" : "bg-primary"}`} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <StatusPill tone="red">CRITICAL FOCUS</StatusPill>
+              <h2 className="text-3xl font-extrabold">Roche-COB-01</h2>
+              <div className="rounded-[24px] bg-[#fff1ef] p-4">
+                <p className="text-lg font-extrabold text-destructive">Status: Maintenance Due</p>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-white">
+                  <div className="h-full w-[72%] rounded-full bg-destructive" />
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <MiniData title="Vacuum Pressure" value="kPa 4.8" />
+                <MiniData title="Thermal Stability" value="37.2°C" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function PredictiveAnalyticsScreen() {
+  return (
+    <AppFrame brand="Clinical Curator LIMS" profile="Core Laboratory" sideTitle="Analytics">
+      <div className="space-y-6">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold">Predictive Analytics Hub</h1>
+          <p className="mt-2 text-sm text-muted-foreground">AI-driven foresight for laboratory resource optimization</p>
+        </div>
+        <div className="grid gap-5 xl:grid-cols-[0.3fr_1fr]">
+          <div className="space-y-5">
+            <AlertCard title="Hemolysis Rate Spike" text="Pre-analytical error predicted to rise in 48h based on shift data." tone="red" />
+            <Card>
+              <CardContent className="space-y-3 p-5">
+                <h3 className="text-xl font-extrabold">AI Recommendations</h3>
+                <div className="rounded-2xl bg-muted/50 px-4 py-3 text-sm">Increase Chemistry Lab staffing by 1.5 FTE for week of Mar 4th.</div>
+                <div className="rounded-2xl bg-muted/50 px-4 py-3 text-sm">Early order of Molecular PCR buffers recommended.</div>
+              </CardContent>
+            </Card>
+          </div>
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-extrabold">Test Volume Forecasting</h2>
+                <span className="font-mono text-2xl font-extrabold text-primary">84,200</span>
+              </div>
+              <div className="flex h-72 items-end justify-between gap-3">
+                {[64, 72, 81, 93, 84, 88, 76, 58, 63, 44, 49, 41].map((v, i) => (
+                  <div key={i} className={`w-full rounded-t-2xl ${i === 4 ? "bg-primary" : "bg-primary/35"}`} style={{ height: `${v * 2.1}px` }} />
+                ))}
+              </div>
+              <Card>
+                <CardContent className="space-y-3 p-4">
+                  <h3 className="text-lg font-extrabold">Disease Outbreak Heatmap</h3>
+                  <div className="min-h-[260px] rounded-[24px] bg-[radial-gradient(circle_at_20%_30%,#bddb9c,#7bb076_34%,#517652_60%,#d6efba_62%,#90b373_76%,#c4e0a5)]" />
+                </CardContent>
+              </Card>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </AppFrame>
+  );
+}
+
+function PublicHealthScreen() {
+  return (
+    <AppFrame brand="Clinical Nexus" profile="Dr. Aris" sideTitle="Public Health">
+      <div className="space-y-6">
+        <div className="grid gap-5 xl:grid-cols-[0.34fr_1fr]">
+          <Card className="teal-gradient text-white">
+            <CardContent className="space-y-4 p-6">
+              <h3 className="text-2xl font-extrabold">AI Forecast (Next 7 Days)</h3>
+              <p className="font-mono text-6xl font-extrabold">12.4%+</p>
+              <p className="text-sm text-white/80">Predicted uptick in localized RSV cases based on atmospheric and clinical markers.</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <div className="grid gap-4 md:grid-cols-2">
+                <MiniData title="Sent Today" value="142" />
+                <MiniData title="Pending Ack" value="08" />
+              </div>
+              <div className="min-h-[280px] rounded-[28px] bg-[linear-gradient(180deg,#dbdfdf,#9ca3af)]" />
+            </CardContent>
+          </Card>
+        </div>
+        <Card>
+          <CardContent className="space-y-5 p-6">
+            <h2 className="text-2xl font-extrabold">Reporting Status Board</h2>
+            {[
+              ["Influenza A (H1N1)", "SENT & ACKNOWLEDGED", "Moderate"],
+              ["Neisseria meningitidis", "ACTION REQUIRED", "Extreme"],
+              ["Salmonella enterica", "PROCESSING", "Low"],
+            ].map((row) => (
+              <div key={row[0]} className="grid grid-cols-[1fr_0.9fr_0.8fr] gap-4 rounded-2xl bg-muted/50 px-4 py-3 text-sm">
+                <span className="font-bold">{row[0]}</span>
+                <span>{row[1]}</span>
+                <span>{row[2]}</span>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    </AppFrame>
+  );
+}
+
+function QuickActionsScreen() {
+  return (
+    <AppFrame brand="LIMS Precision" profile="د. أحمد خالد" sideTitle="الإجراءات السريعة">
+      <div className="space-y-6">
+        <div className="grid gap-5 md:grid-cols-5">
+          {[
+            "إدخال نتائج مجمع",
+            "فحص الجودة (QC)",
+            "طباعة تقرير",
+            "إنشاء طلب جديد",
+            "استلام عينة",
+          ].map((item) => (
+            <Card key={item}>
+              <CardContent className="flex min-h-36 flex-col items-center justify-center gap-4 text-center">
+                <div className="flex size-14 items-center justify-center rounded-2xl bg-accent text-primary">
+                  <Plus className="size-6" />
+                </div>
+                <p className="font-bold">{item}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <div className="grid gap-5 xl:grid-cols-[0.34fr_1fr]">
+          <Card>
+            <CardContent className="space-y-4 p-5">
+              <h3 className="text-xl font-extrabold">طاقة المختبر الاستيعابية</h3>
+              <VoteBar label="أجهزة التحليل الكيميائي" value={85} />
+              <VoteBar label="أجهزة فحص الدم" value={42} />
+              <div className="min-h-[220px] rounded-[28px] bg-[linear-gradient(135deg,#0c2630,#173d4a)]" />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="space-y-5 p-6">
+              <h2 className="text-2xl font-extrabold">آخر العينات المستلمة</h2>
+              <div className="overflow-hidden rounded-[28px] bg-white">
+                <div className="grid grid-cols-[1fr_1fr_1fr_0.8fr] gap-4 border-b border-border/60 px-6 py-4 text-sm font-bold text-slate-500">
+                  <span>رقم العينة</span>
+                  <span>اسم المريض</span>
+                  <span>نوع الفحص</span>
+                  <span>الحالة</span>
+                </div>
+                {[
+                  ["SMP-90210", "فهد العتيبي", "CBC / Lipid Profile", "قيد المعالجة"],
+                  ["SMP-90211", "نورة القحطاني", "Glucose / HBA1C", "مكتمل"],
+                  ["SMP-90212", "ياسر الحلبي", "Thyroid Profile", "حرجة"],
+                ].map((row) => (
+                  <div key={row[0]} className="grid grid-cols-[1fr_1fr_1fr_0.8fr] gap-4 px-6 py-5 text-sm hover:bg-muted/50">
+                    <span className="font-mono">{row[0]}</span>
+                    <span className="font-semibold">{row[1]}</span>
+                    <span>{row[2]}</span>
+                    <StatusPill tone={row[3] === "مكتمل" ? "green" : row[3] === "حرجة" ? "red" : "blue"}>{row[3]}</StatusPill>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
